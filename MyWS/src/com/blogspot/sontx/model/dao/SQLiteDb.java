@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.almworks.sqlite4java.SQLiteQueue;
+import com.blogspot.sontx.model.bean.Account;
 import com.blogspot.sontx.model.bean.Device;
 import com.blogspot.sontx.model.bean.Energy;
 import com.blogspot.sontx.utils.SQLHelper;
@@ -87,6 +88,32 @@ public class SQLiteDb implements ISQLDb {
 		String sql = "UPDATE %s SET device_name = %s WHERE device_id = %d";
 		sql = String.format(sql, TableInfo.DEVICE_TABLE_NAME, 
 				SQLHelper.prepareString(device.getName()), deviceId);
+		mQueue.execute(new SQLiteHelper.NonQueryJob(sql));
+	}
+
+	@Override
+	public void addAccount(Account account) {
+		String sql = "INSERT INTO %s(username, password_hash) VALUES(%s, %s)";
+		sql = String.format(sql, TableInfo.ACCOUNT_TABLE_NAME, 
+				SQLHelper.prepareString(account.getUserName()),
+				SQLHelper.prepareString(account.getPasswordHash()));
+		mQueue.execute(new SQLiteHelper.NonQueryJob(sql)).complete();
+	}
+
+	@Override
+	public Account getAccount(String username) {
+		String sql = "SELECT * FROM %s WHERE username = %s";
+		sql = String.format(sql, TableInfo.ACCOUNT_TABLE_NAME, SQLHelper.prepareString(username));
+		List<Account> accounts = mQueue.execute(new SQLiteHelper.AccountQueryJob(sql)).complete();
+		return accounts != null && !accounts.isEmpty() ? accounts.get(0) : null;
+	}
+
+	@Override
+	public void updateAccount(Account account) {
+		String sql = "UPDATE %s SET password_hash = %s WHERE id = %d";
+		sql = String.format(sql, TableInfo.ACCOUNT_TABLE_NAME, 
+				SQLHelper.prepareString(account.getPasswordHash()),
+				account.getId());
 		mQueue.execute(new SQLiteHelper.NonQueryJob(sql));
 	}
 }

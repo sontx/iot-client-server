@@ -2,6 +2,7 @@ package com.blogspot.sontx.model.dao;
 
 import java.util.List;
 
+import com.blogspot.sontx.model.bean.Account;
 import com.blogspot.sontx.model.bean.Device;
 import com.blogspot.sontx.model.bean.Energy;
 
@@ -24,4 +25,10 @@ public interface ISQLDb {
 	List<Device> getAllDevices();
 	// update device info
 	void updateDevice(int deviceId, Device device);
+	// add new account to database
+	void addAccount(Account account);
+	// get an exist account by user name
+	Account getAccount(String username);
+	// update an exist account 
+	void updateAccount(Account account);
 }

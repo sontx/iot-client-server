@@ -7,6 +7,7 @@ import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteJob;
 import com.almworks.sqlite4java.SQLiteStatement;
+import com.blogspot.sontx.model.bean.Account;
 import com.blogspot.sontx.model.bean.Device;
 import com.blogspot.sontx.model.bean.Energy;
 
@@ -101,5 +102,35 @@ public final class SQLiteHelper {
 			return null;
 		}
 
+	}
+
+	public static class AccountQueryJob extends BaseJob<List<Account>> {
+
+		public AccountQueryJob(String sql) {
+			super(sql);
+		}
+
+		@Override
+		protected List<Account> job(SQLiteConnection connection) throws Throwable {
+			SQLiteStatement statement = null;
+			try {
+				statement = connection.prepare(sql);
+				List<Account> accounts = new ArrayList<Account>();
+				while (statement.step()) {
+					Account account = new Account();
+					account.setId(statement.columnInt(0));
+					account.setUserName(statement.columnString(1));
+					account.setPasswordHash(statement.columnString(2));
+					accounts.add(account);
+				}
+				return accounts;
+			} catch (SQLiteException e) {
+				e.printStackTrace();
+			} finally {
+				if (statement != null)
+					statement.dispose();
+			}
+			return null;
+		}
 	}
 }
