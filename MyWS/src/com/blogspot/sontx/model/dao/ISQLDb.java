@@ -24,7 +24,7 @@ public interface ISQLDb {
 	// get all devices in database
 	List<Device> getAllDevices();
 	// update device info
-	void updateDevice(int deviceId, Device device);
+	void updateDevice(Device device);
 	// add new account to database
 	void addAccount(Account account);
 	// get an exist account by user name
