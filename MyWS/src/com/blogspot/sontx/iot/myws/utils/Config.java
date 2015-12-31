@@ -1,4 +1,4 @@
-package com.blogspot.sontx.utils;
+package com.blogspot.sontx.iot.myws.utils;
 
 public final class Config {
 	public static final String WORKING_DIR;
