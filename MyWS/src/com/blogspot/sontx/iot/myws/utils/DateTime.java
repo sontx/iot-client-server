@@ -1,4 +1,4 @@
-package com.blogspot.sontx.utils;
+package com.blogspot.sontx.iot.myws.utils;
 
 import java.io.Serializable;
 import java.util.Calendar;

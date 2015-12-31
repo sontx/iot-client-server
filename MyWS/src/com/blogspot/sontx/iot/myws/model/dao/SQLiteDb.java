@@ -1,13 +1,13 @@
-package com.blogspot.sontx.model.dao;
+package com.blogspot.sontx.iot.myws.model.dao;
 
 import java.io.File;
 import java.util.List;
 
 import com.almworks.sqlite4java.SQLiteQueue;
-import com.blogspot.sontx.model.bean.Account;
-import com.blogspot.sontx.model.bean.Device;
-import com.blogspot.sontx.model.bean.Energy;
-import com.blogspot.sontx.utils.SQLHelper;
+import com.blogspot.sontx.iot.myws.utils.SQLHelper;
+import com.blogspot.sontx.iot.shared.model.bean.Account;
+import com.blogspot.sontx.iot.shared.model.bean.Device;
+import com.blogspot.sontx.iot.shared.model.bean.Energy;
 
 public class SQLiteDb implements ISQLDb {
 	private final SQLiteQueue mQueue;

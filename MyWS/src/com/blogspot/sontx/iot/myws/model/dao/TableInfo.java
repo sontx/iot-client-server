@@ -1,4 +1,4 @@
-package com.blogspot.sontx.model.dao;
+package com.blogspot.sontx.iot.myws.model.dao;
 
 public final class TableInfo {
 	public static final String ENERGY_TABLE_NAME = "tb_energy";

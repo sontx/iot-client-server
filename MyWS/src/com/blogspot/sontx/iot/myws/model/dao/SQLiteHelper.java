@@ -1,4 +1,4 @@
-package com.blogspot.sontx.model.dao;
+package com.blogspot.sontx.iot.myws.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteJob;
 import com.almworks.sqlite4java.SQLiteStatement;
-import com.blogspot.sontx.model.bean.Account;
-import com.blogspot.sontx.model.bean.Device;
-import com.blogspot.sontx.model.bean.Energy;
+import com.blogspot.sontx.iot.shared.model.bean.Account;
+import com.blogspot.sontx.iot.shared.model.bean.Device;
+import com.blogspot.sontx.iot.shared.model.bean.Energy;
 
 public final class SQLiteHelper {
 

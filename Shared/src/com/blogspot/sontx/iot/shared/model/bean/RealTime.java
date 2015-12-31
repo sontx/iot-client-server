@@ -1,4 +1,4 @@
-package com.blogspot.sontx.model.bean;
+package com.blogspot.sontx.iot.shared.model.bean;
 
 import java.io.Serializable;
 
