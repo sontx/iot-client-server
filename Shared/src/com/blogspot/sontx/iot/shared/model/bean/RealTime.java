@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class RealTime implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private int deviceId;
 	private int power;
 	private short voltage;
 	private int amperage;
@@ -41,8 +42,12 @@ public class RealTime implements Serializable {
 		this.state = state;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(int deviceId) {
+		this.deviceId = deviceId;
 	}
 
 }
