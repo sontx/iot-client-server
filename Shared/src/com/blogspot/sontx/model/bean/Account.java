@@ -31,4 +31,19 @@ public class Account implements Serializable {
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
+	
+	public static boolean checkUserName(String st) {
+		if (st.length() == 0)
+			return false;
+		if (st.indexOf(' ') > -1)
+			return false;
+		for (int i = 0; i < st.length(); i++) {
+			char ch = st.charAt(i);
+			if (!Character.isLetterOrDigit(ch)) {
+				if (ch != '-' && ch != '_')
+					return false;
+			}
+		}
+		return true;
+	}
 }
