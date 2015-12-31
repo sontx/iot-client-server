@@ -1,4 +1,4 @@
-package com.blogspot.sontx.iot.myws.utils;
+package com.blogspot.sontx.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

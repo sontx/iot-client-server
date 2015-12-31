@@ -1,4 +1,4 @@
-package com.blogspot.sontx.iot.myws.utils;
+package com.blogspot.sontx.utils;
 
 public final class Convert {
 
