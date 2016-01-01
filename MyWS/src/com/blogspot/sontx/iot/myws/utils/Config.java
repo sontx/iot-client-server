@@ -1,5 +1,7 @@
 package com.blogspot.sontx.iot.myws.utils;
 
+import com.blogspot.sontx.iot.shared.utils.Convert;
+
 public final class Config {
 	public static final String WORKING_DIR;
 	public static final String CONFIG_FILE_NAME;
