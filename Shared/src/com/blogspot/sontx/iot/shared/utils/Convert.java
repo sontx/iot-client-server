@@ -54,6 +54,8 @@ public final class Convert {
 	}
 
 	public static int parseInt(String st, int def) {
+		if (st == null || st.length() == 0)
+			return def;
 		try {
 			return Integer.parseInt(st);
 		} catch (NumberFormatException e) {
