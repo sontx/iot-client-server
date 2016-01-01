@@ -118,6 +118,13 @@ public final class SQLMgr {
 		return false;
 	}
 
+	public boolean checkLogin(String username, String passwordHash) {
+		Account account = getAccount(username);
+		if (account == null)
+			return false;
+		return account.getPasswordHash().compareToIgnoreCase(passwordHash) == 0;
+	}
+
 	public Account getAccount(String username) {
 		return (username == null || !Account.checkUserName(username)) ? null : mSQLDb.getAccount(username);
 	}
