@@ -11,6 +11,8 @@ public final class Config {
 	public static final int DATA_IN_TIMEOUT;
 	public static final int RELAY_GET_REALTIME;
 	public static final int RELAY_GET_ENERGY;
+	public static final String SU_USERNAME;
+	public static final String SU_PASSWORD;
 
 	private Config() {
 	}
@@ -33,5 +35,7 @@ public final class Config {
 		DATA_IN_TIMEOUT = Convert.parseInt(loader.get(3), 10000);
 		RELAY_GET_REALTIME = Convert.parseInt(loader.get(4), 2000);
 		RELAY_GET_ENERGY = Convert.parseInt(loader.get(5), 10000);
+		SU_USERNAME = loader.get(6);
+		SU_PASSWORD = loader.get(7);
 	}
 }

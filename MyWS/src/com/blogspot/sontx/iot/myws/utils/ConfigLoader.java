@@ -15,7 +15,9 @@ public class ConfigLoader {
 			{ "port", "2512" }, 
 			{ "timeout", "10000" }, 
 			{ "relay-get-realtime", "2000" },
-			{ "relay-get-energy", "10000" }};
+			{ "relay-get-energy", "10000" },
+			{ "su-username", "admin"},
+			{ "su-password", "admin"}};
 	private static final char DELIM = '=';
 	private final HashMap<String, String> map;
 	private final File file;
