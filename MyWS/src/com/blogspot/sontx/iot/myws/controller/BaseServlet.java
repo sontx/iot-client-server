@@ -16,6 +16,13 @@ public abstract class BaseServlet extends HttpServlet {
 	protected abstract void doWork(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException;
 
+	protected void doResp(Object data, HttpServletResponse resp) throws IOException {
+		TransmissionObject obj = new TransmissionObject();
+		obj.setCode(data != null ? TransmissionObject.CODE_DATA_OK : TransmissionObject.CODE_DATA_NULL);
+		obj.setData(data);
+		resp.getOutputStream().write(CrossFlatform.toBytes(obj));
+	}
+
 	private void responseAuthenticationError(HttpServletResponse response) throws IOException {
 		TransmissionObject obj = new TransmissionObject();
 		obj.setCode(TransmissionObject.CODE_AUTH_ERR);
