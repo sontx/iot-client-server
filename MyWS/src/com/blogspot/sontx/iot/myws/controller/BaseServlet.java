@@ -9,12 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.blogspot.sontx.iot.myws.model.bo.SQLMgr;
 import com.blogspot.sontx.iot.shared.CrossFlatform;
 import com.blogspot.sontx.iot.shared.model.bean.TransmissionObject;
+import com.blogspot.sontx.iot.shared.utils.Convert;
 
 public abstract class BaseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected abstract void doWork(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException;
+	
+	protected int getDeviceId(HttpServletRequest request) {
+		return Convert.parseInt(request.getParameter("id"), -1);
+	}
 
 	protected void doResp(Object data, HttpServletResponse resp) throws IOException {
 		TransmissionObject obj = new TransmissionObject();

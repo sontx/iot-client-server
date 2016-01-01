@@ -8,15 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.blogspot.sontx.iot.myws.model.bo.SQLMgr;
 import com.blogspot.sontx.iot.shared.model.bean.Device;
-import com.blogspot.sontx.iot.shared.utils.Convert;
 
 @WebServlet("/DeviceServlet")
 public class DeviceServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private int getDeviceId(HttpServletRequest request) {
-		return Convert.parseInt(request.getParameter("id"), -1);
-	}
 
 	private Object responseDevice(HttpServletRequest request) {
 		int deviceId = getDeviceId(request);
