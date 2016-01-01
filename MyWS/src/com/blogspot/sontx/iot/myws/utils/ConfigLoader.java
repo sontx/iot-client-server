@@ -24,7 +24,8 @@ public class ConfigLoader {
 
 	public String get(int index) {
 		String key = DATA_MAP[index][0];
-		return map.get(key);
+		String value = map.get(key);
+		return value != null ? value : DATA_MAP[index][1];
 	}
 
 	public boolean create() {
