@@ -140,4 +140,8 @@ public final class SQLMgr {
 		if (id > -1)
 			mSQLDb.removeAccount(id);
 	}
+	
+	public List<Account> getAllAccounts() {
+		return mSQLDb.getAllAccounts();
+	}
 }

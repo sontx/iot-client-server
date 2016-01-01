@@ -33,4 +33,6 @@ public interface ISQLDb {
 	Account getAccount(String username);
 	// update an exist account 
 	void updateAccount(Account account);
+	// get all accounts
+	List<Account> getAllAccounts();
 }
