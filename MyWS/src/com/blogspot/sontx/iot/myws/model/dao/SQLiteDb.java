@@ -116,4 +116,11 @@ public class SQLiteDb implements ISQLDb {
 				account.getId());
 		mQueue.execute(new SQLiteHelper.NonQueryJob(sql));
 	}
+
+	@Override
+	public void removeAccount(int id) {
+		String sql = "DELETE FROM %s WHERE id = %d";
+		sql = String.format(sql, TableInfo.ACCOUNT_TABLE_NAME, id);
+		mQueue.execute(new SQLiteHelper.NonQueryJob(sql));
+	}
 }

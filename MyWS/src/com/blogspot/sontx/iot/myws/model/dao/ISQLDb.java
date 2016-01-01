@@ -27,6 +27,8 @@ public interface ISQLDb {
 	void updateDevice(Device device);
 	// add new account to database
 	void addAccount(Account account);
+	// remove an exist account by id
+	void removeAccount(int id);
 	// get an exist account by user name
 	Account getAccount(String username);
 	// update an exist account 

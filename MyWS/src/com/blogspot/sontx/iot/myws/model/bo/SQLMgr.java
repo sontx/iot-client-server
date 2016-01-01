@@ -135,4 +135,9 @@ public final class SQLMgr {
 				mSQLDb.updateAccount(account);
 		}
 	}
+
+	public void deleteAccount(int id) {
+		if (id > -1)
+			mSQLDb.removeAccount(id);
+	}
 }
