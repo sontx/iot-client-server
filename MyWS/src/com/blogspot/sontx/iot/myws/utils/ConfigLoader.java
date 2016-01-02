@@ -59,7 +59,7 @@ public class ConfigLoader {
 			while (reader.ready()) {
 				String line = reader.readLine();
 				String key = line.substring(0, line.indexOf(DELIM));
-				String value = line.substring(key.length()).trim();
+				String value = line.substring(key.length() + 1).trim();
 				map.put(key, value);
 			}
 			return true;
