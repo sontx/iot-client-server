@@ -55,6 +55,10 @@ public class SuperuserServlet extends HttpServlet {
 		}
 	}
 
+	private void logout(HttpServletRequest request) {
+		request.getSession().setAttribute("logined", "0");
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (!logined(request)) {
@@ -68,6 +72,9 @@ public class SuperuserServlet extends HttpServlet {
 					break;
 				case "new":
 					createAccount(request);
+					break;
+				case "logout":
+					logout(request);
 					break;
 				}
 			}
