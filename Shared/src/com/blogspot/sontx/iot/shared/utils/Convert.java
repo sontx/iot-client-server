@@ -71,6 +71,11 @@ public final class Convert {
 		return result;
 	}
 
+	public static byte[] integerToBytes(int a) {
+		return new byte[] { (byte) ((a >> 24) & 0xFF), (byte) ((a >> 16) & 0xFF), 
+							(byte) ((a >> 8) & 0xFF), (byte) (a & 0xFF) };
+	}
+	
 	public static int bytesToInteger(byte[] b, int offset) {
 		return b[offset + 3] & 0xFF | (b[offset + 2] & 0xFF) << 8 | 
 				(b[offset + 1] & 0xFF) << 16 | (b[offset] & 0xFF) << 24;
