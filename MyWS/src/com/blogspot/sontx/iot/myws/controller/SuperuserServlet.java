@@ -30,9 +30,9 @@ public class SuperuserServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		if ((username == null || password == null)
 				|| (!username.equals(Config.SU_USERNAME) || !password.equals(Config.SU_PASSWORD))) {
-			request.getSession().setAttribute("logined", 0);
+			request.getSession().setAttribute("logined", "0");
 		} else {
-			request.getSession().setAttribute("logined", 1);
+			request.getSession().setAttribute("logined", "1");
 		}
 	}
 
