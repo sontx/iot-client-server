@@ -75,6 +75,14 @@ public final class Convert {
 		return b[offset + 3] & 0xFF | (b[offset + 2] & 0xFF) << 8 | 
 				(b[offset + 1] & 0xFF) << 16 | (b[offset] & 0xFF) << 24;
 	}
+	
+	public static byte[] shortToBytes(short a) {
+		return new byte[] { (byte) ((a >> 8) & 0x00FF), (byte) (a & 0x00FF) };
+	}
+
+	public static short bytesToShort(byte[] b, int offset) {
+		return (short) ((b[offset + 1] & 0xFF) | (b[offset] & 0xFF) << 8);
+	}
 
 	private Convert() {
 	}
