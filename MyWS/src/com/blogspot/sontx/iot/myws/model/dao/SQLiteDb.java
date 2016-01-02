@@ -21,13 +21,13 @@ public class SQLiteDb implements ISQLDb {
 	public SQLiteDb(String dbFileName) {
 		File dbFile = new File(dbFileName);
 		mQueue = new SQLiteQueue(dbFile);
-		if (!dbFile.exists())
-			createDb();
 	}
 
 	@Override
 	public void open() {
 		mQueue.start();
+		if (!mQueue.getDatabaseFile().exists())
+			createDb();
 	}
 
 	@Override
