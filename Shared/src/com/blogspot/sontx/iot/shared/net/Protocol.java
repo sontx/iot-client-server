@@ -128,7 +128,7 @@ public final class Protocol {
 		return null;
 	}
 
-	private boolean writeData(byte[] data) {
+	public boolean writeData(byte[] data) {
 		// create package to hold actual data when send to remote
 		byte[] buff = new byte[4 + data.length];
 		int offset = 0;
