@@ -63,6 +63,14 @@ public final class Protocol {
 		return false;
 	}
 
+	public boolean ready() {
+		try {
+			return in.available() > 0;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
 	public byte[] readData() {
 		if (!waitForAvailable())
 			return null;
