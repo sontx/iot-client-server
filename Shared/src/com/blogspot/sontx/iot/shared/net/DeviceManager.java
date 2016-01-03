@@ -25,7 +25,7 @@ public final class DeviceManager implements Runnable, OnClientStoppedListener {
 		return instance;
 	}
 
-	public static void createInstance(InetAddress addr, int port, IJobExecutor executor) {
+	public static void createInstance(String addr, int port, IJobExecutor executor) {
 		instance = new DeviceManager(addr, port, executor);
 	}
 
@@ -36,9 +36,10 @@ public final class DeviceManager implements Runnable, OnClientStoppedListener {
 		}
 	}
 
-	private DeviceManager(InetAddress addr, int port, IJobExecutor executor) {
+	private DeviceManager(String addr, int port, IJobExecutor executor) {
 		try {
-			server = new ServerSocket(port, 100, addr);
+			InetAddress iaddr = InetAddress.getByName(addr);
+			server = new ServerSocket(port, 100, iaddr);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
