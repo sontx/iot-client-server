@@ -15,9 +15,11 @@ import com.blogspot.sontx.iot.shared.utils.Convert;
 public class AccountServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void doWork(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private Object responseCheckLogin() {
+		return "OK";
+	}
+	
+	private Object responseChangePasswordHash(HttpServletRequest request) {
 		String username = request.getParameter("username");
 		String newPasswordHash = request.getParameter("npasshash");
 		int userid = Convert.parseInt(request.getParameter("id"), -1);
@@ -26,7 +28,25 @@ public class AccountServlet extends BaseServlet {
 		account.setUserName(username);
 		account.setPasswordHash(newPasswordHash);
 		SQLMgr.getInstance().updateAccount(account);
-		doResp("OK", response);
+		return "OK";
+	}
+	
+	@Override
+	protected void doWork(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String req = request.getParameter("req");
+		if (req == null)
+			return;
+		Object data = null;
+		switch (req) {
+		case "check":
+			data = responseCheckLogin();
+			break;
+		case "changepass":
+			data = responseChangePasswordHash(request);
+			break;
+		}
+		doResp(data, response);
 	}
 
 }
