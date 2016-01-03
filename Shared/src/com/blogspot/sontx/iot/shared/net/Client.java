@@ -134,6 +134,7 @@ public class Client implements Runnable {
 
 			@Override
 			public void onHasId(int deviceId) {
+				executor.onHasId(deviceId);
 				clientId = deviceId;
 				initJobQueue();
 				startJobQueue();
