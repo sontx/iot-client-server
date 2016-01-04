@@ -15,8 +15,10 @@ import com.blogspot.sontx.iot.shared.utils.Convert;
 public class AccountServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 
-	private Object responseCheckLogin() {
-		return "OK";
+	private Object responseCheckLogin(HttpServletRequest request) {
+		String username = request.getParameter("username");
+		Account account = SQLMgr.getInstance().getAccount(username);
+		return account;
 	}
 	
 	private Object responseChangePasswordHash(HttpServletRequest request) {
@@ -40,7 +42,7 @@ public class AccountServlet extends BaseServlet {
 		Object data = null;
 		switch (req) {
 		case "check":
-			data = responseCheckLogin();
+			data = responseCheckLogin(request);
 			break;
 		case "changepass":
 			data = responseChangePasswordHash(request);
