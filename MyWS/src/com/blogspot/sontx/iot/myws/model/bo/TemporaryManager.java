@@ -1,6 +1,9 @@
 package com.blogspot.sontx.iot.myws.model.bo;
 
+import java.util.List;
+
 import com.blogspot.sontx.iot.myws.model.dao.TemporaryObject;
+import com.blogspot.sontx.iot.shared.model.bean.Device;
 import com.blogspot.sontx.iot.shared.model.bean.RealTime;
 
 public final class TemporaryManager {
@@ -8,8 +11,6 @@ public final class TemporaryManager {
 	private TemporaryObject temporaryObject;
 
 	public static TemporaryManager getInstance() {
-		if (instance == null)
-			instance = new TemporaryManager();
 		return instance;
 	}
 
@@ -20,8 +21,21 @@ public final class TemporaryManager {
 		}
 	}
 
-	private TemporaryManager() {
+	public static void createInstance(List<Device> devices) {
+		instance = new TemporaryManager(devices);
+	}
+	
+	private TemporaryManager(List<Device> devices) {
 		temporaryObject = new TemporaryObject();
+		if (devices != null) {
+			for (Device device : devices) {
+				RealTime realTime = new RealTime();
+				int deviceId = device.getId();
+				realTime.setDeviceId(deviceId);
+				temporaryObject.add(realTime);
+				off(deviceId);
+			}
+		}
 	}
 
 	public void off(int deviceId) {
