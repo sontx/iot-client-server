@@ -85,7 +85,7 @@ public class SQLiteDb implements ISQLDb {
 
 	@Override
 	public void updateDevice(Device device) {
-		String sql = "UPDATE %s SET device_name = %s WHERE device_id = %d";
+		String sql = "UPDATE %s SET name = %s WHERE device_id = %d";
 		sql = String.format(sql, TableInfo.DEVICE_TABLE_NAME, 
 				SQLHelper.prepareString(device.getName()), device.getId());
 		mQueue.execute(new SQLiteHelper.NonQueryJob(sql));
