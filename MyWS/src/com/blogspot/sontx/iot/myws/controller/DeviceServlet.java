@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.blogspot.sontx.iot.myws.model.bo.SQLMgr;
 import com.blogspot.sontx.iot.shared.model.bean.Device;
+import com.blogspot.sontx.iot.shared.net.Client;
 import com.blogspot.sontx.iot.shared.net.DeviceManager;
 import com.blogspot.sontx.iot.shared.utils.Convert;
 
@@ -19,11 +20,11 @@ public class DeviceServlet extends BaseServlet {
 		int deviceId = getDeviceId(request);
 		return SQLMgr.getInstance().getDevice(deviceId);
 	}
-	
+
 	private Object responseAllDevices() {
 		return SQLMgr.getInstance().getAllDevices();
 	}
-	
+
 	private Object responseUpdate(HttpServletRequest request) {
 		int deviceId = getDeviceId(request);
 		String newName = request.getParameter("newname");
@@ -33,17 +34,21 @@ public class DeviceServlet extends BaseServlet {
 		SQLMgr.getInstance().updateDevice(device);
 		return "OK";
 	}
-	
+
 	private Object responseTurn(HttpServletRequest request) {
 		int deviceId = getDeviceId(request);
 		int off = Convert.parseInt(request.getParameter("off"), 1);
-		if (off != 0)
-			DeviceManager.getInstance().getClientById(deviceId).turnOff();
-		else
-			DeviceManager.getInstance().getClientById(deviceId).turnOn();
-		return "OK";
+		Client client = DeviceManager.getInstance().getClientById(deviceId);
+		if (client != null) {
+			if (off != 0)
+				client.turnOff();
+			else
+				client.turnOn();
+			return "OK";
+		}
+		return "FAIL";
 	}
-	
+
 	@Override
 	protected void doWork(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
