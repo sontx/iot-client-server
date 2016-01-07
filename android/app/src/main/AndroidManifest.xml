@@ -21,7 +21,8 @@
             android:name=".ui.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".ui.DevicesActivity" />
-        <activity android:name=".ui.RealtimeActivity"></activity>
+        <activity android:name=".ui.RealtimeActivity" />
+        <activity android:name=".ui.HistoryActivity"></activity>
     </application>
 
 </manifest>

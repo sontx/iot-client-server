@@ -5,6 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
+
+import com.blogspot.sontx.iot.shared.model.bean.Energy;
 
 public final class Convert {
 
@@ -87,6 +90,39 @@ public final class Convert {
 
 	public static short bytesToShort(byte[] b, int offset) {
 		return (short) ((b[offset + 1] & 0xFF) | (b[offset] & 0xFF) << 8);
+	}
+	
+	public static float[] getEnergyGroupBy24h(List<Energy> allEnergies, int day, int month, int year) {
+		if (allEnergies != null) {
+			int[] hours = new int[24];
+			DateTime now = new DateTime(day, month, year, 0, 0, 0);
+			for (int i = 0; i < hours.length; i++) {
+				now.setHours(i);
+				hours[i] = now.toInteger();
+			}
+
+			int period = 60 * 59 + 59;
+			int start, stop;
+			float[] energyValues = new float[24];
+			for (int i = 0, j; i < allEnergies.size(); i++) {
+				Energy energy = allEnergies.get(i);
+				int utc = energy.getUtc();
+				j = 0;
+				start = hours[j];
+				stop = start + period;
+				while (utc < start || utc > stop) {
+					j++;
+					if (j == 24)
+						return null;
+					start = hours[j];
+					stop = start + period;
+				}
+				energyValues[j] += energy.getEnergy();
+			}
+
+			return energyValues;
+		}
+		return null;
 	}
 
 	private Convert() {

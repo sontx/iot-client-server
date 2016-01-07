@@ -126,12 +126,15 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
         int position = info.position;
         Device device = ((DeviceHolder) adapter.getItem(position)).device;
         Intent intent = new Intent();
-        intent.putExtra(TaskActivity.INTENT_DEVICE, device);
+        Bundle bundle = new Bundle();
+        bundle.putInt(TaskActivity.INTENT_DEVICE_ID, device.getId());
         if (item.getItemId() == R.id.devices_context_menu_realtime) {
             intent.setClass(this, RealtimeActivity.class);
         } else if (item.getItemId() == R.id.devices_context_menu_history) {
-
+            bundle.putInt(HistoryActivity.INTENT_CHART_TYPE, HistoryActivity.CHART_DAY);
+            intent.setClass(this, HistoryActivity.class);
         }
+        intent.putExtras(bundle);
         startActivity(intent);
         return true;
     }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.blogspot.sontx.iot.shared.CrossFlatform;
 import com.blogspot.sontx.iot.shared.model.bean.Account;
 import com.blogspot.sontx.iot.shared.model.bean.Device;
+import com.blogspot.sontx.iot.shared.model.bean.Energy;
 import com.blogspot.sontx.iot.shared.model.bean.RealTime;
 import com.blogspot.sontx.iot.shared.model.bean.TransmissionObject;
 
@@ -128,5 +129,17 @@ public final class ConnectionServer {
         if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
             return null;
         return (RealTime) obj.getData();
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public float[] getEnergies(int deviceId, int day, int month, int year) {
+        String params = String.format("req=day&id=%d&day=%d&month=%d&year=%d", deviceId, day, month, year);
+        TransmissionObject obj = sendWithAuthentication("EnergyServlet", params);
+        if (obj == null)
+            return null;
+        if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
+            return null;
+        return (float[]) obj.getData();
     }
 }

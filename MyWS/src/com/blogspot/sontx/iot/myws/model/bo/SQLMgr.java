@@ -8,6 +8,7 @@ import com.blogspot.sontx.iot.myws.utils.Config;
 import com.blogspot.sontx.iot.shared.model.bean.Account;
 import com.blogspot.sontx.iot.shared.model.bean.Device;
 import com.blogspot.sontx.iot.shared.model.bean.Energy;
+import com.blogspot.sontx.iot.shared.utils.Convert;
 import com.blogspot.sontx.iot.shared.utils.DateTime;
 
 public final class SQLMgr {
@@ -64,12 +65,13 @@ public final class SQLMgr {
 		return getEnergies(deviceId, begin, end);
 	}
 
-	public List<Energy> getEnergies(int deviceId, int day, int month, int year) {
+	public float[] getEnergies(int deviceId, int day, int month, int year) {
 		if (deviceId <= 0 || year < 2015 || month < 1 || month > 12 || day < 0 || day > DateTime.getMaxDay(month, year))
 			return null;
 		DateTime begin = new DateTime(day, month, year, 0, 0, 0);
 		DateTime end = new DateTime(day, month, year, 23, 59, 59);
-		return getEnergies(deviceId, begin, end);
+		List<Energy> energies = getEnergies(deviceId, begin, end);
+		return energies != null ? Convert.getEnergyGroupBy24h(energies, day, month, year) : null;
 	}
 
 	private void validDeviceInfo(Device device) {
