@@ -36,7 +36,7 @@ public class RealtimeActivity extends TaskActivity implements Handler.Callback, 
     private boolean pendingStop = false;
     private Handler mUpdaterHandler = new Handler(this);
     private ValueFormatter formatter = new ValueFormatter() {
-        private DecimalFormat format = new DecimalFormat(".##");
+        private DecimalFormat format = new DecimalFormat("#.##");
         @Override
         public String getFormattedValue(float v, Entry entry, int i, ViewPortHandler viewPortHandler) {
             return format.format(v);

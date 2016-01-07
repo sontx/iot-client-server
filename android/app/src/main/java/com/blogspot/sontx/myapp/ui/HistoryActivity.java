@@ -33,7 +33,7 @@ public class HistoryActivity extends TaskActivity implements View.OnClickListene
     private EditText mYearView;
     private EditText mMonthView;
     private EditText mDayView;
-    private DecimalFormat mFormat = new DecimalFormat(".##");
+    private DecimalFormat mFormat = new DecimalFormat("#.##");
 
     private int getYear() {
         return Convert.parseInt(mYearView.getText().toString(), DateTime.now().getYear());
