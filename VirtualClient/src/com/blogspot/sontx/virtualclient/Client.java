@@ -15,8 +15,33 @@ public class Client implements Runnable {
 	private final int id;
 	private boolean pendingStop = false;
 	private Random rand = new Random(System.currentTimeMillis());
-	private byte state;
+	private byte state = (byte) 0;
+	private OnStateChangedListener mOnStateChangedListener = null;
+	
+	public void setOnStateChangedListener(OnStateChangedListener listener) {
+		mOnStateChangedListener = listener;
+	}
+	
+	private void fireOnStateChangedListener() {
+		if (mOnStateChangedListener != null)
+			mOnStateChangedListener.stateChanged(this);
+	}
+	
+	public int getId() {
+		return id;
+	}
 
+	public byte getState() {
+		return state;
+	}
+	
+	public void setState(byte state) {
+		if (state != this.state) {
+			this.state = state;
+			fireOnStateChangedListener();
+		}
+	}
+	
 	private void log(String st) {
 		System.out.println(String.format("[%d] %s", id, st));
 	}
@@ -66,7 +91,7 @@ public class Client implements Runnable {
 		System.arraycopy(Convert.integerToBytes(am), 0, actualData, offset, 4);
 		offset += 4;
 		actualData[offset] = state;
-		log(String.format("Response real-time PW = %d, VOL = %d, AM = %d", pw, vol, am));
+		log(String.format("Response real-time PW = %d, VOL = %d, AM = %d, %s", pw, vol, am, state != 0 ? "ON" : "OFF"));
 		return response(actualData, Protocol.TYPE_REALTIME);
 	}
 	
@@ -78,6 +103,7 @@ public class Client implements Runnable {
 			log("Turn ON device....");
 			state = (byte) 1;
 		}
+		fireOnStateChangedListener();
 	}
 
 	private boolean processData(byte[] data) {
@@ -88,6 +114,7 @@ public class Client implements Runnable {
 		case Protocol.TYPE_ID:
 			return responseId();
 		case Protocol.TYPE_REALTIME:
+			//state = (byte) (rand.nextInt() % 2);
 			return responseRealtime();
 		case Protocol.TYPE_TURN_OFF:
 			turn(true);
@@ -120,13 +147,19 @@ public class Client implements Runnable {
 		}
 		if (!pendingStop) 
 			log("Corrupt :|");
+		log("Stopped!");
 	}
 
 	public void dispose() {
+		pendingStop = true;
 		protocol.dispose();
 		try {
 			socket.close();
 		} catch (IOException e) {
 		}
+	}
+	
+	public interface OnStateChangedListener {
+		void stateChanged(Client client);
 	}
 }

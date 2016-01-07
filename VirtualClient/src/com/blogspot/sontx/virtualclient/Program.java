@@ -1,9 +1,12 @@
 package com.blogspot.sontx.virtualclient;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import javax.swing.JFrame;
 
 public class Program {
 	private Client[] clients;
@@ -40,6 +43,17 @@ public class Program {
 			new Thread(client).start();
 			clients[i] = client;
 		}
+		ClientUI ui = new ClientUI(clients);
+		ui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ui.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				for (Client client : clients) {
+					client.dispose();
+				}
+			}
+		});
+		ui.setVisible(true);
 	}
 
 	private Program(int count) {
