@@ -42,7 +42,7 @@ public class InputBox implements View.OnClickListener {
         mDialog.dismiss();
     }
 
-    public InputBox(Context context) {
+    public InputBox(Context context, String initValue) {
         mDialog = new Dialog(context);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_inputbox);
@@ -54,6 +54,12 @@ public class InputBox implements View.OnClickListener {
 
         mDialog.findViewById(R.id.inputbox_btn_cancel).setOnClickListener(this);
         mDialog.findViewById(R.id.inputbox_btn_ok).setOnClickListener(this);
+
+        mInputView.setText(initValue);
+    }
+
+    public InputBox(Context context) {
+        this(context, null);
     }
 
     @Override

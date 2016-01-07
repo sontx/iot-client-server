@@ -4,4 +4,6 @@
         android:title="Real-time"/>
     <item android:id="@+id/devices_context_menu_history"
         android:title="History"/>
+    <item android:id="@+id/devices_context_menu_rename"
+        android:title="Rename"/>
 </menu>

@@ -166,4 +166,14 @@ public final class ConnectionServer {
             return null;
         return (float[]) obj.getData();
     }
+
+    public boolean renameDevice(int deviceId, String newName) {
+        String params = String.format("req=rename&id=%d&newname=%s", deviceId, newName);
+        TransmissionObject obj = sendWithAuthentication("DeviceServlet", params);
+        if (obj == null)
+            return false;
+        if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
+            return false;
+        return obj.getData().toString().equals("OK");
+    }
 }
