@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changeIP() {
-        InputBox box = new InputBox(this);
+        InputBox box = new InputBox(this, getSharedPref().getString(Config.SHARED_PREF_SRV_IP, ""));
         box.setOnInputCompletedListener(new InputBox.OnInputCompletedListener() {
             @Override
             public void inputCompleted(InputBox box, @NonNull String content) {
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changePort() {
-        InputBox box = new InputBox(this);
+        InputBox box = new InputBox(this, String.format("%d", getSharedPref().getInt(Config.SHARED_PREF_SRV_PORT, 2512)));
         box.setOnInputCompletedListener(new InputBox.OnInputCompletedListener() {
             @Override
             public void inputCompleted(InputBox box, @NonNull String content) {
