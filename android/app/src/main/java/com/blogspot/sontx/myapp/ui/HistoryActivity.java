@@ -68,8 +68,6 @@ public class HistoryActivity extends TaskActivity implements View.OnClickListene
         findViewById(R.id.history_btn_year).setOnClickListener(this);
 
         mDeviceId = getDeviceId();
-
-        setTitle(String.format("Id: %d", mDeviceId));
     }
 
     private void loadYear() {

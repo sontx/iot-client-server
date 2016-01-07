@@ -17,4 +17,10 @@ public abstract class TaskActivity extends AppCompatActivity {
         Intent intent = getIntent();
         return intent.getExtras().getInt(INTENT_DEVICE_ID);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setTitle(String.format("Id: %d", getDeviceId()));
+    }
 }
