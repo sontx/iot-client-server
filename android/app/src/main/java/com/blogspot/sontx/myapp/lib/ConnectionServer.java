@@ -176,4 +176,14 @@ public final class ConnectionServer {
             return false;
         return obj.getData().toString().equals("OK");
     }
+
+    public boolean turnDevice(int deviceId, boolean off) {
+        String params = String.format("req=turn&id=%d&off=%d", deviceId, off ? 1 : 0);
+        TransmissionObject obj = sendWithAuthentication("DeviceServlet", params);
+        if (obj == null)
+            return false;
+        if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
+            return false;
+        return obj.getData().toString().equals("OK");
+    }
 }

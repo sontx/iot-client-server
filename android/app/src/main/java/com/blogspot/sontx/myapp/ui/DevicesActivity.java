@@ -117,8 +117,13 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.devices_lv_list)
+        if (v.getId() == R.id.devices_lv_list) {
             getMenuInflater().inflate(R.menu.devices_context_menu, menu);
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            int position = info.position;
+            DeviceHolder holder = (DeviceHolder) adapter.getItem(position);
+            menu.findItem(R.id.devices_context_menu_turn).setTitle(holder.state != 0 ? "Turn OFF" : "Turn ON");
+        }
     }
 
     @Override
@@ -132,6 +137,8 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
             startTaskActivity(HistoryActivity.class, device.getId());
         } else if (item.getItemId() == R.id.devices_context_menu_rename) {
             renameDevice(device);
+        } else if (item.getItemId() == R.id.devices_context_menu_turn) {
+            turnOFF(device.getId(), item.getTitle().equals("Turn OFF"));
         }
         return true;
     }
@@ -166,6 +173,24 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
             }
         });
         box.show();
+    }
+
+    private void turnOFF(final int deviceId, final boolean off) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final boolean ok = ConnectionServer.getInstance().turnDevice(deviceId, off);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (ok)
+                            Toast.makeText(DevicesActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(DevicesActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void startTaskActivity(Class target, int deviceId) {
