@@ -1,14 +1,18 @@
 package com.blogspot.sontx.myapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,6 +67,7 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
                 });
             }
         }).start();
+        registerForContextMenu(devicesView);
     }
 
     private void updateDevicesState(final List<DeviceHolder> devices) {
@@ -106,6 +111,28 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
         if (msg.what == 1) {
             adapter.notifyDataSetChanged();
         }
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.devices_lv_list)
+            getMenuInflater().inflate(R.menu.devices_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        Device device = ((DeviceHolder) adapter.getItem(position)).device;
+        Intent intent = new Intent();
+        intent.putExtra(TaskActivity.INTENT_DEVICE, device);
+        if (item.getItemId() == R.id.devices_context_menu_realtime) {
+            intent.setClass(this, RealtimeActivity.class);
+        } else if (item.getItemId() == R.id.devices_context_menu_history) {
+
+        }
+        startActivity(intent);
         return true;
     }
 
