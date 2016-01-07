@@ -157,6 +157,39 @@ public final class Convert {
 		}
 		return null;
 	}
+	
+	public static float[] getEnergyGroupByMonths(List<Energy> allEnergies, int year) {
+		if (allEnergies != null) {
+			int[] months = new int[12];
+			DateTime now = new DateTime(1, 1, year, 0, 0, 0);
+			for (int i = 0; i < months.length; i++) {
+				now.setMonth(i + 1);
+				months[i] = now.toInteger();
+			}
+
+			final int bound = new DateTime(1, 1, year + 1, 0, 0, 0).toInteger();
+			int start, stop;
+			float[] energyValues = new float[months.length];
+			for (int i = 0, j; i < allEnergies.size(); i++) {
+				Energy energy = allEnergies.get(i);
+				int utc = energy.getUtc();
+				j = 0;
+				start = months[j];
+				stop = j < 11 ? months[j + 1] : bound;
+				while (utc < start || utc > stop) {
+					j++;
+					if (j == months.length)
+						return null;
+					start = months[j];
+					stop = j < 11 ? months[j + 1] : bound;
+				}
+				energyValues[j] += energy.getEnergy();
+			}
+
+			return energyValues;
+		}
+		return null;
+	}
 
 	private Convert() {
 	}

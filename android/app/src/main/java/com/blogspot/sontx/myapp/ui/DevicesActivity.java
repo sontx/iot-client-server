@@ -131,7 +131,6 @@ public class DevicesActivity extends AppCompatActivity implements Handler.Callba
         if (item.getItemId() == R.id.devices_context_menu_realtime) {
             intent.setClass(this, RealtimeActivity.class);
         } else if (item.getItemId() == R.id.devices_context_menu_history) {
-            bundle.putInt(HistoryActivity.INTENT_CHART_TYPE, HistoryActivity.CHART_DAY);
             intent.setClass(this, HistoryActivity.class);
         }
         intent.putExtras(bundle);

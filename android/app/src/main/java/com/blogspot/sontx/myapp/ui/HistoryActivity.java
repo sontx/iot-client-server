@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blogspot.sontx.iot.shared.model.bean.Energy;
@@ -21,41 +22,81 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryActivity extends TaskActivity implements View.OnClickListener, OnChartValueSelectedListener {
-    public static final String INTENT_CHART_TYPE = "chart_type";
-    public static final int CHART_DAY = 1;
-    public static final int CHART_MONTH = 2;
-    public static final int CHART_YEAR = 3;
-    public static final int CHART_ALL = 4;
-
     private int mDeviceId;
     private int mType;
     private BarChart mBarChart;
+    private EditText mYearView;
+    private EditText mMonthView;
+    private EditText mDayView;
+    private DecimalFormat mFormat = new DecimalFormat(".##");
+
+    private int getYear() {
+        return Convert.parseInt(mYearView.getText().toString(), DateTime.now().getYear());
+    }
+
+    private int getMonth() {
+        return Convert.parseInt(mMonthView.getText().toString(), DateTime.now().getMonth());
+    }
+
+    private int getDay() {
+        return Convert.parseInt(mDayView.getText().toString(), DateTime.now().getDay());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
         mBarChart = (BarChart) findViewById(R.id.history_bc_chart);
         setupChart(mBarChart);
-        Button btnNext = (Button) findViewById(R.id.history_btn_next);
-        btnNext.setOnClickListener(this);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        mType = bundle.getInt(INTENT_CHART_TYPE);
+        mYearView = (EditText) findViewById(R.id.history_et_year);
+        mMonthView = (EditText) findViewById(R.id.history_et_month);
+        mDayView = (EditText) findViewById(R.id.history_et_day);
+        DateTime now = DateTime.now();
+        mYearView.setText(String.format("%d", now.getYear()));
+        mMonthView.setText(String.format("%d", now.getMonth()));
+        mDayView.setText(String.format("%d", now.getDay()));
+
+        findViewById(R.id.history_btn_day).setOnClickListener(this);
+        findViewById(R.id.history_btn_month).setOnClickListener(this);
+        findViewById(R.id.history_btn_year).setOnClickListener(this);
+
         mDeviceId = getDeviceId();
 
-        if (mType == CHART_DAY) {
-            btnNext.setText("this month");
-            loadDay();
-        } else if (mType == CHART_MONTH) {
-            btnNext.setText("this month");
-            loadMonth();
-        }
+        setTitle(String.format("Id: %d", mDeviceId));
+    }
+
+    private void loadYear() {
+        final ProcessingBox box = new ProcessingBox(this);
+        box.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final float[] energies = ConnectionServer.getInstance().getEnergies(mDeviceId, getYear());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (energies == null) {
+                            Toast.makeText(HistoryActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                        } else {
+                            mBarChart.getXAxis().resetLabelsToSkip();
+                            float[] data = new float[12];
+                            for (int i = 0; i < energies.length; i++) {
+                                data[i] = energies[i] / 1000.0f;
+                            }
+                            loadData(data);
+                        }
+                        box.dismiss();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void loadMonth() {
@@ -64,18 +105,44 @@ public class HistoryActivity extends TaskActivity implements View.OnClickListene
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final DateTime now = DateTime.now();
                 final float[] energies = ConnectionServer.getInstance().getEnergies(
-                        mDeviceId, now.getMonth(), now.getYear());
+                        mDeviceId, getMonth(), getYear());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (energies == null) {
                             Toast.makeText(HistoryActivity.this, "Error!", Toast.LENGTH_LONG).show();
-                            finish();
                         } else {
                             mBarChart.getXAxis().setLabelsToSkip(1);
-                            float[] data = new float[DateTime.getMaxDay(now.getMonth(), now.getYear())];
+                            float[] data = new float[DateTime.getMaxDay(getMonth(), getYear())];
+                            for (int i = 0; i < energies.length; i++) {
+                                data[i] = energies[i] / 1000.0f;
+                            }
+                            loadData(data);
+                        }
+                        box.dismiss();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void loadDay() {
+        final ProcessingBox box = new ProcessingBox(this);
+        box.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final float[] energies = ConnectionServer.getInstance().getEnergies(
+                        mDeviceId, getDay(), getMonth(), getYear());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (energies == null) {
+                            Toast.makeText(HistoryActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                        } else {
+                            mBarChart.getXAxis().setLabelsToSkip(1);
+                            float[] data = new float[24];
                             for (int i = 0; i < energies.length; i++) {
                                 data[i] = energies[i] / 1000.0f;
                             }
@@ -113,55 +180,23 @@ public class HistoryActivity extends TaskActivity implements View.OnClickListene
         dataSet.setDrawValues(false);
         BarData barData = new BarData(labels, dataSet);
         mBarChart.setData(barData);
-    }
-
-    private void loadDay() {
-        final ProcessingBox box = new ProcessingBox(this);
-        box.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final DateTime now = DateTime.now();
-                final float[] energies = ConnectionServer.getInstance().getEnergies(
-                        mDeviceId, now.getDay(), now.getMonth(), now.getYear());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (energies == null) {
-                            Toast.makeText(HistoryActivity.this, "Error!", Toast.LENGTH_LONG).show();
-                            finish();
-                        } else {
-                            mBarChart.getXAxis().setLabelsToSkip(1);
-                            float[] data = new float[24];
-                            for (int i = 0; i < energies.length; i++) {
-                                data[i] = energies[i] / 1000.0f;
-                            }
-                            loadData(data);
-                        }
-                        box.dismiss();
-                    }
-                });
-            }
-        }).start();
+        mBarChart.invalidate();
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putInt(INTENT_DEVICE_ID, mDeviceId);
-        if (mType == CHART_DAY) {
-            bundle.putInt(INTENT_CHART_TYPE, CHART_MONTH);
+        if (v.getId() == R.id.history_btn_day) {
+            loadDay();
+        } else if (v.getId() == R.id.history_btn_month) {
+            loadMonth();
+        } else if (v.getId() == R.id.history_btn_year) {
+            loadYear();
         }
-        intent.putExtras(bundle);
-        intent.setClass(this, getClass());
-        startActivity(intent);
-        finish();
     }
 
     @Override
     public void onValueSelected(Entry entry, int i, Highlight highlight) {
-        Toast.makeText(HistoryActivity.this, String.format("%f kWh", entry.getVal()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(HistoryActivity.this, String.format("%s kWh", mFormat.format(entry.getVal())), Toast.LENGTH_SHORT).show();
     }
 
     @Override

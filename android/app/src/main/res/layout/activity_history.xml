@@ -9,12 +9,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.blogspot.sontx.myapp.ui.HistoryActivity">
-    <Button
-        android:id="@+id/history_btn_next"
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next..."/>
+    <TableLayout
+        android:stretchColumns="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <EditText
+                android:id="@+id/history_et_day"
+                android:hint="Day"
+                android:singleLine="true"
+                android:inputType="number"/>
+            <Button
+                android:id="@+id/history_btn_day"
+                android:text="see day"/>
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/history_et_month"
+                android:hint="Month"
+                android:singleLine="true"
+                android:inputType="number"/>
+            <Button
+                android:id="@+id/history_btn_month"
+                android:text="see month"/>
+        </TableRow>
+        <TableRow>
+            <EditText
+                android:id="@+id/history_et_year"
+                android:hint="Year"
+                android:singleLine="true"
+                android:inputType="number"/>
+            <Button
+                android:id="@+id/history_btn_year"
+                android:text="see year"/>
+        </TableRow>
+    </TableLayout>
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/history_bc_chart"
         android:layout_width="match_parent"

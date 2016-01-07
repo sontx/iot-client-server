@@ -154,4 +154,16 @@ public final class ConnectionServer {
             return null;
         return (float[]) obj.getData();
     }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public float[] getEnergies(int deviceId, int year) {
+        String params = String.format("req=year&id=%d&year=%d", deviceId, year);
+        TransmissionObject obj = sendWithAuthentication("EnergyServlet", params);
+        if (obj == null)
+            return null;
+        if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
+            return null;
+        return (float[]) obj.getData();
+    }
 }

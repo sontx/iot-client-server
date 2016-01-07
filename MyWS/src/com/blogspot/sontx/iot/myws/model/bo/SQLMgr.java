@@ -48,12 +48,11 @@ public final class SQLMgr {
 		return mSQLDb.getEnergies(deviceId, beginUTC, endUTC);
 	}
 
-	public List<Energy> getEnergies(int deviceId, int year) {
-		if (deviceId <= 0 || year < 2015)// just for fun :|
-			return null;
+	public float[] getEnergies(int deviceId, int year) {
 		DateTime begin = new DateTime(1, 1, year, 0, 0, 0);
 		DateTime end = new DateTime(31, 12, year, 23, 59, 59);
-		return getEnergies(deviceId, begin, end);
+		List<Energy> energies = getEnergies(deviceId, begin, end);
+		return energies != null ? Convert.getEnergyGroupByMonths(energies, year) : null;
 	}
 
 	public float[] getEnergies(int deviceId, int month, int year) {
