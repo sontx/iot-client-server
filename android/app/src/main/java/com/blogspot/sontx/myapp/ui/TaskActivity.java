@@ -11,10 +11,10 @@ import com.blogspot.sontx.iot.shared.model.bean.Device;
  * Created by noem on 06/01/2016.
  */
 public abstract class TaskActivity extends AppCompatActivity {
-    public static final String INTENT_DEVICE = "device";
+    public static final String INTENT_DEVICE_ID = "device_id";
 
-    protected Device getDevice() {
+    protected int getDeviceId() {
         Intent intent = getIntent();
-        return (Device) intent.getSerializableExtra(INTENT_DEVICE);
+        return intent.getExtras().getInt(INTENT_DEVICE_ID);
     }
 }

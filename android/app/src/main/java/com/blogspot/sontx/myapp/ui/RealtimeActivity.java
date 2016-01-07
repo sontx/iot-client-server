@@ -29,7 +29,7 @@ public class RealtimeActivity extends TaskActivity implements Handler.Callback, 
     private static final int WHAT_OK = 1;
     private static final int WHAT_WARNING = 0;
     private static final int WHAT_ERROR = 2;
-    private Device mDevice;
+    private int mDeviceId;
     private LineChart mPowerChart;
     private LineChart mAmperageChart;
     private LineChart mVoltageChart;
@@ -57,7 +57,7 @@ public class RealtimeActivity extends TaskActivity implements Handler.Callback, 
         setupChart(mAmperageChart, "Amperage(A)", colors[1], 50000.0f / 1000.0f);
         setupChart(mVoltageChart, "Voltage(V)", colors[2], 300);
 
-        mDevice = getDevice();
+        mDeviceId = getDeviceId();
 
         new Thread(this).start();
     }
@@ -177,7 +177,7 @@ public class RealtimeActivity extends TaskActivity implements Handler.Callback, 
     @Override
     public void run() {
         int lastError = 0;// count of try :|
-        int deviceId = mDevice.getId();
+        int deviceId = mDeviceId;
         while (!pendingStop) {
             RealTime realTime = ConnectionServer.getInstance().getRealtime(deviceId);
             if (realTime != null) {
