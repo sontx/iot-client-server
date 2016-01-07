@@ -102,8 +102,8 @@ public final class ConnectionServer {
     }
 
     private TransmissionObject sendWithAuthentication(String servletName, String params) {
-        params = String.format("username=%s&passhash=%s&%s",
-                mAccount.getUserName(), mAccount.getPasswordHash(), params);
+        params = String.format("username=%s&passhash=%s&userid=%d&%s",
+                mAccount.getUserName(), mAccount.getPasswordHash(), mAccount.getId(), params);
         return sendForResult(servletName, params);
     }
 
@@ -180,6 +180,16 @@ public final class ConnectionServer {
     public boolean turnDevice(int deviceId, boolean off) {
         String params = String.format("req=turn&id=%d&off=%d", deviceId, off ? 1 : 0);
         TransmissionObject obj = sendWithAuthentication("DeviceServlet", params);
+        if (obj == null)
+            return false;
+        if (obj.getCode() != TransmissionObject.CODE_DATA_OK)
+            return false;
+        return obj.getData().toString().equals("OK");
+    }
+
+    public boolean changePassword(String newPasswordHash) {
+        String params = String.format("req=changepass&npasshash=%s", newPasswordHash);
+        TransmissionObject obj = sendWithAuthentication("AccountServlet", params);
         if (obj == null)
             return false;
         if (obj.getCode() != TransmissionObject.CODE_DATA_OK)

@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -23,19 +24,27 @@
             android:layout_column="0" />
 
         <TextView
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="..."
             android:id="@+id/main_tv_username"
             android:layout_column="1" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change"
-            android:id="@+id/main_btn_change_username"
-            android:layout_column="2" />
+        <LinearLayout
+            android:layout_column="2" >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_edit"
+                android:id="@+id/main_btn_change_password"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_preferences"
+                android:id="@+id/main_btn_change_username"/>
+        </LinearLayout>
     </TableRow>
 
     <TableRow
@@ -43,6 +52,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -51,6 +61,8 @@
             android:layout_column="0" />
 
         <TextView
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -58,10 +70,10 @@
             android:id="@+id/main_tv_ip"
             android:layout_column="1" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change"
+            android:src="@android:drawable/ic_menu_preferences"
             android:id="@+id/main_btn_change_ip"
             android:layout_column="2" />
     </TableRow>
@@ -71,6 +83,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -79,6 +92,8 @@
             android:layout_column="0" />
 
         <TextView
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -86,10 +101,10 @@
             android:id="@+id/main_tv_port"
             android:layout_column="1" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change"
+            android:src="@android:drawable/ic_menu_preferences"
             android:id="@+id/main_btn_change_port"
             android:layout_column="2" />
     </TableRow>
@@ -99,6 +114,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,10 +123,10 @@
             android:id="@+id/textView4"
             android:layout_column="0" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="show"
+            android:src="@android:drawable/ic_menu_search"
             android:id="@+id/main_btn_devices"
             android:layout_column="2" />
     </TableRow>
@@ -120,6 +136,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -128,10 +145,10 @@
             android:id="@+id/textView7"
             android:layout_column="0" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="go"
+            android:src="@android:drawable/ic_menu_search"
             android:id="@+id/main_btn_go_su"
             android:layout_column="2" />
     </TableRow>

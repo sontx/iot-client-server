@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.sontx.iot.shared.Security;
 import com.blogspot.sontx.iot.shared.model.bean.Account;
 import com.blogspot.sontx.iot.shared.utils.Convert;
 import com.blogspot.sontx.myapp.R;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPortView = (TextView) findViewById(R.id.main_tv_port);
 
         findViewById(R.id.main_btn_change_username).setOnClickListener(this);
+        findViewById(R.id.main_btn_change_password).setOnClickListener(this);
         findViewById(R.id.main_btn_change_ip).setOnClickListener(this);
         findViewById(R.id.main_btn_change_port).setOnClickListener(this);
         findViewById(R.id.main_btn_devices).setOnClickListener(this);
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == CODE_LOGIN && resultCode == RESULT_OK) {
             reloadDisplayInfo();
             setupConnectionAuthentication();
+            mLogged = true;
         }
     }
 
@@ -106,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.main_btn_change_username) {
             changeUserName();
+        } else if (v.getId() == R.id.main_btn_change_password) {
+            changePassword();
         } else if (v.getId() == R.id.main_btn_change_ip) {
             changeIP();
         } else if (v.getId() == R.id.main_btn_change_port) {
@@ -115,6 +120,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v.getId() == R.id.main_btn_go_su) {
             gotoSuperUser();
         }
+    }
+
+    private void changePassword() {
+        if (!mLogged)
+            return;
+        InputBox box = new InputBox(this);
+        box.setMessage("Change your password here:");
+        box.setOnInputCompletedListener(new InputBox.OnInputCompletedListener() {
+            @Override
+            public void inputCompleted(InputBox box, @NonNull final String content) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String passwordHash = Security.getPasswordHash(content);
+                        final boolean ok = ConnectionServer.getInstance().changePassword(passwordHash);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (ok) {
+                                    SharedPreferences.Editor editor = getSharedPref().edit();
+                                    editor.putString(Config.SHARED_PREF_ACC_PASSWORDHASH, passwordHash);
+                                    editor.apply();
+                                    setupConnectionAuthentication();
+                                    Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                }).start();
+
+
+                box.dismiss();
+            }
+        });
+        box.show();
     }
 
     private void displayDevices() {

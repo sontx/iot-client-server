@@ -24,7 +24,7 @@ public class AccountServlet extends BaseServlet {
 	private Object responseChangePasswordHash(HttpServletRequest request) {
 		String username = request.getParameter("username");
 		String newPasswordHash = request.getParameter("npasshash");
-		int userid = Convert.parseInt(request.getParameter("id"), -1);
+		int userid = Convert.parseInt(request.getParameter("userid"), -1);
 		Account account = new Account();
 		account.setId(userid);
 		account.setUserName(username);
