@@ -124,6 +124,39 @@ public final class Convert {
 		}
 		return null;
 	}
+	
+	public static float[] getEnergyGroupByDays(List<Energy> allEnergies, int month, int year) {
+		if (allEnergies != null) {
+			int[] days = new int[DateTime.getMaxDay(month, year)];
+			DateTime now = new DateTime(1, month, year, 0, 0, 0);
+			for (int i = 0; i < days.length; i++) {
+				now.setDay(i + 1);
+				days[i] = now.toInteger();
+			}
+
+			int period = 23 * 60 * 60 + 60 * 59 + 59;
+			int start, stop;
+			float[] energyValues = new float[days.length];
+			for (int i = 0, j; i < allEnergies.size(); i++) {
+				Energy energy = allEnergies.get(i);
+				int utc = energy.getUtc();
+				j = 0;
+				start = days[j];
+				stop = start + period;
+				while (utc < start || utc > stop) {
+					j++;
+					if (j == days.length)
+						return null;
+					start = days[j];
+					stop = start + period;
+				}
+				energyValues[j] += energy.getEnergy();
+			}
+
+			return energyValues;
+		}
+		return null;
+	}
 
 	private Convert() {
 	}

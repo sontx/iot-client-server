@@ -56,13 +56,13 @@ public final class SQLMgr {
 		return getEnergies(deviceId, begin, end);
 	}
 
-	public List<Energy> getEnergies(int deviceId, int month, int year) {
-		if (deviceId <= 0 || year < 2015 || month < 1 || month > 12)// just for
-																	// fun :|
+	public float[] getEnergies(int deviceId, int month, int year) {
+		if (deviceId <= 0 || year < 2015 || month < 1 || month > 12)
 			return null;
 		DateTime begin = new DateTime(1, month, year, 0, 0, 0);
 		DateTime end = new DateTime(DateTime.getMaxDay(month, year), month, year, 23, 59, 59);
-		return getEnergies(deviceId, begin, end);
+		List<Energy> energies = getEnergies(deviceId, begin, end);
+		return energies != null ? Convert.getEnergyGroupByDays(energies, month, year) : null;
 	}
 
 	public float[] getEnergies(int deviceId, int day, int month, int year) {
