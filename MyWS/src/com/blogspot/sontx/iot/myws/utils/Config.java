@@ -18,7 +18,7 @@ public final class Config {
 	}
 
 	static {
-		WORKING_DIR = System.getProperty("catalina.base") + "/webapps/MYWS";
+		WORKING_DIR = System.getProperty("catalina.base") + "/webapps/MyWS";
 		CONFIG_FILE_NAME = WORKING_DIR + "/config.in";
 
 		ConfigLoader loader = new ConfigLoader(CONFIG_FILE_NAME);
