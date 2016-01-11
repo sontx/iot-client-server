@@ -117,7 +117,7 @@ public final class Protocol {
 					stop = true;
 					break;
 				} else {
-					start = true;// failed protocol, restart protocol
+					start = false;// failed protocol, restart protocol
 				}
 			}
 			// check result
