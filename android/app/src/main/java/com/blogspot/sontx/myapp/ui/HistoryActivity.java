@@ -28,7 +28,6 @@ import java.util.List;
 
 public class HistoryActivity extends TaskActivity implements View.OnClickListener, OnChartValueSelectedListener {
     private int mDeviceId;
-    private int mType;
     private BarChart mBarChart;
     private EditText mYearView;
     private EditText mMonthView;

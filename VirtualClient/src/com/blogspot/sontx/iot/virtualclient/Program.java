@@ -1,4 +1,4 @@
-package com.blogspot.sontx.virtualclient;
+package com.blogspot.sontx.iot.virtualclient;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

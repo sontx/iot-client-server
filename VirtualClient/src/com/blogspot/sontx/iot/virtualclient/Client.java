@@ -1,4 +1,4 @@
-package com.blogspot.sontx.virtualclient;
+package com.blogspot.sontx.iot.virtualclient;
 
 import java.io.IOException;
 import java.io.InputStream;

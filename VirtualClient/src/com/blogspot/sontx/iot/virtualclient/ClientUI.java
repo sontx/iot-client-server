@@ -1,4 +1,4 @@
-package com.blogspot.sontx.virtualclient;
+package com.blogspot.sontx.iot.virtualclient;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.blogspot.sontx.iot.shared.utils.Convert;
-import com.blogspot.sontx.virtualclient.Client.OnStateChangedListener;
+import com.blogspot.sontx.iot.virtualclient.Client.OnStateChangedListener;
 
 public class ClientUI extends JFrame implements ActionListener, OnStateChangedListener {
 	private static final long serialVersionUID = 1L;
