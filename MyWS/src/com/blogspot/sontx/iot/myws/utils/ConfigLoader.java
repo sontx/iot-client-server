@@ -30,10 +30,11 @@ public class ConfigLoader {
 
 	public boolean create() {
 		BufferedWriter writer = null;
+		String format = "%s" + DELIM +  "%s" + System.lineSeparator();
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
 			for (int i = 0; i < DATA_MAP.length; i++) {
-				String line = String.format("%s%c%s\n", DATA_MAP[i][0], DELIM, DATA_MAP[i][1]);
+				String line = String.format(format, DATA_MAP[i][0], DATA_MAP[i][1]);
 				writer.write(line);
 			}
 			return true;
